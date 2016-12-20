@@ -595,6 +595,9 @@ extern size_t my_fwrite(FILE *stream,const uchar *Buffer,size_t Count,
 extern my_off_t my_fseek(FILE *stream,my_off_t pos,int whence,myf MyFlags);
 extern my_off_t my_ftell(FILE *stream,myf MyFlags);
 
+struct passwd *my_check_user(const char *user, myf MyFlags);
+int my_set_user(const char *user, struct passwd *user_info, myf MyFlags);
+
 /* implemented in my_memmem.c */
 extern void *my_memmem(const void *haystack, size_t haystacklen,
                        const void *needle, size_t needlelen);
