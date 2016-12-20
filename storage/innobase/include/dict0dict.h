@@ -1002,7 +1002,7 @@ dict_tf_set(
 	bool		shared_space,
 	bool		page_compressed,
 	ulint		page_compression_level,
-	ulint		atomic_writes);
+	ulint		not_used);
 
 /** Initialize a dict_table_t::flags pointer.
 @param[in]	compact,	Table uses Compact or greater
@@ -1020,7 +1020,7 @@ dict_tf_init(
 	bool		shared_space,
 	bool		page_compressed,
 	ulint		page_compression_level,
-	ulint		atomic_writes);
+	ulint		not_used);
 
 /** Convert a 32 bit integer table flags to the 32 bit FSP Flags.
 Fsp Flags are written into the tablespace header at the offset

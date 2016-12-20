@@ -681,18 +681,6 @@ srv_undo_tablespace_open(
 		os_offset_t	size;
 		fil_space_t*	space;
 
-		bool	atomic_write;
-
-#if !defined(NO_FALLOCATE) && defined(UNIV_LINUX)
-		if (!srv_use_doublewrite_buf) {
-			atomic_write = fil_fusionio_enable_atomic_write(fh);
-		} else {
-			atomic_write = false;
-		}
-#else
-		atomic_write = false;
-#endif /* !NO_FALLOCATE && UNIV_LINUX */
-
 		size = os_file_get_size(fh);
 		ut_a(size != (os_offset_t) -1);
 
@@ -710,7 +698,7 @@ srv_undo_tablespace_open(
 
 		/* Set the compressed page size to 0 (non-compressed) */
 		flags = fsp_flags_init(
-			univ_page_size, false, false, false, false, false, 0, ATOMIC_WRITES_DEFAULT);
+			univ_page_size, false, false, false, false, false, 0, 0);
 		space = fil_space_create(
 			undo_name, space_id, flags, FIL_TYPE_TABLESPACE, NULL);
 
@@ -724,7 +712,7 @@ srv_undo_tablespace_open(
 		the unit has been scaled to pages and page number is always
 		32 bits. */
 		if (fil_node_create(
-			name, (ulint) n_pages, space, false, atomic_write)) {
+			name, (ulint) n_pages, space, false, TRUE)) {
 
 			err = DB_SUCCESS;
 		}
